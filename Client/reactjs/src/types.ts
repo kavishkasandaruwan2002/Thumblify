@@ -20,7 +20,7 @@ export interface ITestimonial {
 }
 
 export interface IFeature {
-    icon: ReactNode;
+    icon: string;
     title: string;
     description: string;
 }
