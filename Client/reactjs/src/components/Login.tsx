@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 
-import SoftBackdrop from "./softbackdrop";
+import SoftBackdrop from "./SoftBackdrop";
 
 
 const Login = () => {
