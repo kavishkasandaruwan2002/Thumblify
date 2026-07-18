@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 
 export interface SectionTitleProps {
     text1: string;

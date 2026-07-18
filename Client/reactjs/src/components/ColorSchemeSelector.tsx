@@ -1,6 +1,4 @@
-import React from 'react'
 import { colorSchemes } from '../assets/assets'
-import { button, div } from 'motion/react-client';
 
 export default function ColorSchemeSelector({ value, onChange }:
     { value: string; onChange: (color: string) => void }) {

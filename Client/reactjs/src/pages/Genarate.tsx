@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
     colorSchemes,
+    dummyThumbnails,
     type AspectRatio,
     type IThumbnail,
     type ThumbnailStyle
 } from '../assets/assets'
 
 import SoftBackdrop from '../components/SoftBackdrop'
-import AspectRatioSelector from '../components/AspectratioSelector'
+import AspectRatioSelector from '../components/AspectRatioSelector'
 import StyleSelector from '../components/StyleSelector'
 import ColorSchemeSelector from '../components/ColorSchemeSelector'
 import PreviewPanel from '../components/PreviewPanel'
@@ -79,6 +80,18 @@ function Generate() {
 
     // Fetch Thumbnail
     const fetchThumbnail = async () => {
+        const dummy = dummyThumbnails.find((t) => t._id === id) as IThumbnail | undefined
+        if (dummy) {
+            setThumbnail(dummy)
+            setLoading(false)
+            setAdditionalDetails(dummy.user_prompt || '')
+            setTitle(dummy.title)
+            setColorSchemeId(dummy.color_scheme || 'vibrant')
+            setAspectRatio(dummy.aspect_ratio || '16:9')
+            setStyle(dummy.style)
+            return
+        }
+
         try {
 
             const { data } = await api.get(`/api/user/thumbnail/${id}`)

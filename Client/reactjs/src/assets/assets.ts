@@ -45,16 +45,16 @@ export interface IThumbnail {
     prompt_used?: string;
     user_prompt?: string;
     isGenerating?: boolean;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 }
 
 export interface IUser {
     name: string;
     email: string;
     password?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 }
 
 export const dummyThumbnails = [

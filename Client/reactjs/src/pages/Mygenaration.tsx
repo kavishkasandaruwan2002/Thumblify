@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import SoftBackdrop from '../components/SoftBackdrop'
-import { type IThumbnail } from '../assets/assets'
+import { type IThumbnail, dummyThumbnails } from '../assets/assets'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowUpRightIcon, DownloadIcon, TrashIcon } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -19,7 +19,7 @@ export default function MyGeneration() {
         '9:16': 'aspect-[9/16]',
     }
 
-    const [thumbnails, setThumbnails] = useState<IThumbnail[]>([])
+    const [thumbnails, setThumbnails] = useState<IThumbnail[]>(dummyThumbnails as IThumbnail[])
     const [loading, setLoading] = useState(false)
 
 
@@ -27,9 +27,10 @@ export default function MyGeneration() {
         try {
             setLoading(true)
             const { data } = await api.get('/api/user/thumbnails')
-            setThumbnails(data.thumbnails || [])
+            setThumbnails([...(data.thumbnails || []), ...(dummyThumbnails as IThumbnail[])])
         } catch (error: any) {
             console.error(error);
+            // On error we still keep the dummy thumbnails in state
             toast.error(error?.response?.data?.message || error.message)
         } finally {
             setLoading(false)
@@ -47,8 +48,15 @@ export default function MyGeneration() {
         try {
             const confirm = window.confirm('Are tou sure you want to delte this thumbnail?')
             if (!confirm) return;
-            const { data } = await api.delete(`/api/thumbnail/delete/${id}`)
-            toast.success(data.message)
+            
+            const isDummy = dummyThumbnails.some((t) => t._id === id)
+            if (!isDummy) {
+                const { data } = await api.delete(`/api/thumbnail/delete/${id}`)
+                toast.success(data.message)
+            } else {
+                toast.success('Sample thumbnail removed')
+            }
+            
             setThumbnails(thumbnails.filter((t) => t._id !== id));
 
         } catch (error: any) {
@@ -154,7 +162,7 @@ export default function MyGeneration() {
                                                 className='size-6 bg-black/50 p-1 rounded
                         hover:bg-pink-600 transition-all'/>
 
-                                            <Link target="_blank" to={`/preview?thumbnail_url=${thumb.image_url}&title=${thumb.title}`}>
+                                            <Link target="_blank" to={`/ytpriew?thumbnail_url=${thumb.image_url}&title=${thumb.title}`}>
 
                                                 <ArrowUpRightIcon className='size-6 bg-black/50 p-1 rounded
                         hover:bg-pink-600 transition-all'/>

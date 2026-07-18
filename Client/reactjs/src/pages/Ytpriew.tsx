@@ -8,15 +8,17 @@ const Ytpriew = () => {
     const navigate = useNavigate();
     const [iframeSrc, setIframeSrc] = useState("");
     const [title, setTitle] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
     const [viewMode, setViewMode] = useState<"desktop" | "mobile">("desktop");
 
     useEffect(() => {
-        const storedTitle = localStorage.getItem("thumblify_preview_title") || "My Awesome Video Title!";
-        const storedUrl = localStorage.getItem("thumblify_preview_url") || "https://picsum.photos/800/450";
+        const params = new URLSearchParams(window.location.search);
+        const queryTitle = params.get("title");
+        const queryUrl = params.get("thumbnail_url");
+
+        const storedTitle = queryTitle || localStorage.getItem("thumblify_preview_title") || "My Awesome Video Title!";
+        const storedUrl = queryUrl || localStorage.getItem("thumblify_preview_url") || "https://picsum.photos/800/450";
 
         setTitle(storedTitle);
-        setImageUrl(storedUrl);
 
         // Replace template placeholders in yt_html
         let docContent = yt_html;
