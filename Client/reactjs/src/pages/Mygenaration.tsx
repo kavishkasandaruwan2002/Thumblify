@@ -48,7 +48,7 @@ export default function MyGeneration() {
         try {
             const confirm = window.confirm('Are tou sure you want to delte this thumbnail?')
             if (!confirm) return;
-            
+
             const isDummy = dummyThumbnails.some((t) => t._id === id)
             if (!isDummy) {
                 const { data } = await api.delete(`/api/thumbnail/delete/${id}`)
@@ -56,7 +56,7 @@ export default function MyGeneration() {
             } else {
                 toast.success('Sample thumbnail removed')
             }
-            
+
             setThumbnails(thumbnails.filter((t) => t._id !== id));
 
         } catch (error: any) {
@@ -129,7 +129,7 @@ export default function MyGeneration() {
                       items-center justify-center text-sm font-medium text-white'>Generating...</div>}
                                     </div>
 
-                                    {/* CONTENT */}
+                                    {/* CONTENT  new */}
                                     <div className='p-4 space-y-2 pb-10 relative'>
                                         <h3 className='text-sm font-semibold text-zinc-100 line-clamp-2'>
                                             {thumb.title}
